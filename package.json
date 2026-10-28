@@ -1,6 +1,6 @@
 {
   "name": "dsh-kugou-listen",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "private": true,
   "type": "module",
   "description": "DSH plugin: let the AI know what Kugou is playing and which lyric line is on screen; listen-together, audio hearing, playback control.",
