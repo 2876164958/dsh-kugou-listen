@@ -4,7 +4,7 @@
 
 给 [DeepSeek Harness](https://github.com/deepseek-ai) 用的插件。**Windows 专用。**
 
-**当前版本：1.0.12 ｜ 只在酷狗 20.0.41 上完整验证过。**
+**当前版本：1.0.13 ｜ 只在酷狗 20.0.41 上完整验证过。**
 
 > 别的版本可能不行，尤其 20.1.x（Chromium 内核）。原因写在
 > [这份记录](docs/chromium-a11y.md) 里：
