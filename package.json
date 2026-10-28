@@ -1,0 +1,53 @@
+{
+  "name": "dsh-kugou-listen",
+  "version": "1.0.12",
+  "private": true,
+  "type": "module",
+  "description": "DSH plugin: let the AI know what Kugou is playing and which lyric line is on screen; listen-together, audio hearing, playback control.",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "kugou",
+    "mcp",
+    "music"
+  ],
+  "scripts": {
+    "deps": "python tools/kugou_mcp.py --deps",
+    "selfcheck": "python tools/kugou_mcp.py --selfcheck"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "lib/hostdeps.mjs",
+    "cordis.patch.yml",
+    "tools/kugou_mcp.py",
+    "tools/wincap.py",
+    "tools/rec.py",
+    "tools/uia_kugou.py",
+    "locale/*.json",
+    "icon.svg",
+    "requirements.txt",
+    "setup.ps1",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-settings"
+      ]
+    }
+  }
+}
