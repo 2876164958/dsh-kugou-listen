@@ -66,6 +66,29 @@ CREDIT_WORDS = ('出品', '作词', '作曲', '编曲', '制作', '监制', '混
                 '转载', '声明', '未经', '授权', '保留所有权利')
 
 
+def _history_file():
+    return os.path.join(CFG_DIR, 'history.jsonl')
+
+
+def _record_history(song, lines):
+    """记一行听歌史。同一首歌、同一段词只记一次，避免每轮都写。
+
+    行格式：{"t": "2026-10-29 02:05:11", "song": "…", "line": "…"}
+    """
+    # 一首歌只记一次。以前把歌词也算进 key，结果歌词一滚就写一行，日志会爆。
+    key = song
+    if _state.get('last_key') == key:
+        return
+    _state['last_key'] = key
+    import datetime
+    os.makedirs(CFG_DIR, exist_ok=True)
+    rec = {'t': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+           'song': song,
+           'line': (lines[0] if lines else '')}
+    with open(_history_file(), 'a', encoding='utf-8') as f:
+        f.write(json.dumps(rec, ensure_ascii=False) + '\n')
+
+
 def _lyric_box_file():
     return os.path.join(CFG_DIR, 'lyric_box.json')
 
@@ -554,6 +577,14 @@ def read_now(front=False):
         lines.append(text)
 
     song = title.replace('酷狗音乐', '').strip(' -')
+
+    # 顺手记一笔听歌史：以前只记「说了什么」，没记「在听什么」，
+    # 想做个按天的听歌日记就没材料。这里只记变化点，同一首歌不重复写。
+    try:
+        if song and playing:
+            _record_history(song, lines)
+    except Exception:
+        pass
 
     # 缓存切歪了会一直读空。连空两次就把这个尺寸的缓存删掉，下次重新认。
     if not lines:
