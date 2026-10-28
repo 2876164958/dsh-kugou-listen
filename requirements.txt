@@ -1,0 +1,15 @@
+# 读屏（必需）
+pillow>=10
+winocr>=0.0.13          # 会顺带装上 winrt-Windows.Media.Ocr 等几个包
+numpy>=1.24
+
+# 操作界面（建议装）：走系统的 UI Automation，按控件名字点按钮，不截图、不算坐标。
+# 没装也能读歌读词，只是开房/退出这类要点按钮的功能会退回截图认字，慢且容易点空。
+# 就一行：  pip install uiautomation
+uiautomation>=2.0
+
+# 录音（只有开「真正的听力能力」才需要）
+pyaudiowpatch>=0.2.12
+
+# MCP 服务端（必需）。⚠️ 必须是 1.x：2.x 把 FastMCP 改名了，脚本起不来
+mcp<2
