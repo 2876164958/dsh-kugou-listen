@@ -1,0 +1,43 @@
+# ============================================================================
+# dsh-kugou-listen —— 挂载声明
+# ============================================================================
+# 两个 entry：
+#   kugou-listen     设置那一层（Config → 设置页那张表单）
+#   kugou-listen-mcp 采集那一层（stdio MCP server）
+#
+# ⚠️ 下面 command / args 只是占位。**别手改**：
+#    在这个目录里跑一次 setup.ps1，它会按你的机器写好真实路径。
+# ============================================================================
+
+- insert:
+    # 设置那一层
+    - id: kugou-listen
+      name: dsh-kugou-listen
+      config:
+        invite: ask
+        watch_on: true
+        poll_seconds: 15
+        notify: true
+        push_lyric: false
+        push_interval: 90
+        deliver:
+          - log
+        webhook_url: ''
+        hearing: false
+        audio_api_key: ''
+        audio_api_url: https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation
+        audio_model: qwen-audio-turbo
+        think_on: true
+        think_every_min: 10
+
+    # 采集那一层：工具是 读歌 / 读词 / 听一段 / 投递 / 接邀请 / 暂停 / 上一首 / 下一首 / 自检
+    - id: kugou-listen-mcp
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: kugou
+        transport: stdio
+        command: python
+        args:
+          - ./tools/kugou_mcp.py
+        toolCallTimeoutMs: 60000
+        failOnStartupError: false
